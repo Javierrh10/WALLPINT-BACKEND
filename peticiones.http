@@ -75,3 +75,32 @@ Content-Type: application/json
     "id": 1
   }
 }
+
+### Crear presupuesto nuevo para la prueba
+POST http://localhost:8080/api/presupuestos
+Content-Type: application/json
+
+{
+  "referencia": "PRE-2026-002",
+  "total": 0.0,
+  "estado": "PENDIENTE",
+  "cliente": {
+    "id": 1
+  }
+}
+
+### Añadir estancia de 10 metros
+POST http://localhost:8080/api/estancias
+Content-Type: application/json
+
+{
+  "nombre": "Habitación Infantil",
+  "metrosCuadrados": 10.0,
+  "estadoParedes": "Necesita Reparación",
+  "presupuesto": {
+    "id": 2
+  }
+}
+
+### Comprobar el total del presupuesto
+GET http://localhost:8080/api/presupuestos/2

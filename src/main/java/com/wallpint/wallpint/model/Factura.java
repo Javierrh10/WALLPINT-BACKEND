@@ -25,7 +25,7 @@ public class Factura {
     private LocalDateTime fechaEmision;
 
     @Column(nullable = false)
-    private Double Total;
+    private Double total;
 
     @Column(nullable = false)
     private String estado; // Ej: "PENDIENTE", "PAGADA"
@@ -64,10 +64,10 @@ public class Factura {
     }
 
     public Double getTotal() {
-        return Total;
+        return total;
     }
     public void setTotal(Double total) {
-        Total = total;
+        this.total = total;
     }
 
     public LocalDateTime getFechaEmision() {

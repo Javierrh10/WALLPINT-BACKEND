@@ -35,6 +35,11 @@ public class PresupuestoService {
         return presupuestoRepository.findByClienteId(clienteId);
     }
 
+    // Buscar presupuesto por su ID
+    public Presupuesto obtenerPorId(Long id) {
+        return presupuestoRepository.findById(id).orElse(null);
+    }
+
     // Registrar un nuevo presupuesto
     public Presupuesto guardarPresupuesto(Presupuesto presupuesto) {
         if (presupuesto.getFechaCreacion() == null) {

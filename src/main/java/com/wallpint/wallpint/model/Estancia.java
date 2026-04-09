@@ -25,6 +25,9 @@ public class Estancia {
     @Column(nullable = false)
     private String estadoParedes; // Ej: "BUEN ESTADO", "NECESITA REPARACIÓN", "CON HUMEDAD"
 
+    @Column(nullable = false)
+    private String color;
+
     // --- RELACIÓN CON PRESUPUESTO ---
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "presupuesto_id", nullable = false)
@@ -53,6 +56,13 @@ public class Estancia {
     }
     public void setEstadoParedes(String estadoParedes) {
         this.estadoParedes = estadoParedes;
+    }
+
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Double getMetrosCuadrados() {

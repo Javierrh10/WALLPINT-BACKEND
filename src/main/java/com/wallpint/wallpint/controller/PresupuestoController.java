@@ -39,6 +39,17 @@ public class PresupuestoController {
         return new ResponseEntity<>(presupuestoService.obtenerPorCliente(clienteId), HttpStatus.OK);
     }
 
+    // GET: http://localhost:8080/api/presupuestos/{id}
+    @GetMapping("/{id}")
+    public ResponseEntity<Presupuesto> obtenerPresupuestoPorId(@PathVariable Long id) {
+        Presupuesto presupuesto = presupuestoService.obtenerPorId(id);
+        if (presupuesto != null) {
+            return new ResponseEntity<>(presupuesto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Devuelve 404 si el ID no existe
+        }
+    }
+
     // POST: http://localhost:8080/api/presupuestos
     @PostMapping
     public ResponseEntity<Presupuesto> crearPresupuesto(@RequestBody Presupuesto presupuesto) {
