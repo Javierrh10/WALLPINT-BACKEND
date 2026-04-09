@@ -48,3 +48,30 @@ Content-Type: application/json
     "id": 1
   }
 }
+
+### Añadir una estancia a un presupuesto
+POST http://localhost:8080/api/estancias
+Content-Type: application/json
+
+{
+  "nombre": "Salón Principal",
+  "metrosCuadrados": 25.5,
+  "color": "Blanco Roto",
+  "estadoParedes": "CON HUMEDAD",
+  "presupuesto": {
+    "id": 1
+  }
+}
+
+### Generar una nueva factura
+POST http://localhost:8080/api/facturas
+Content-Type: application/json
+
+{
+  "numeroFactura": "FAC-2026-001",
+  "Total": 1513.10,
+  "estado": "PENDIENTE",
+  "presupuesto": {
+    "id": 1
+  }
+}
