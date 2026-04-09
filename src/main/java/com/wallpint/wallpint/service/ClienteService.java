@@ -2,8 +2,11 @@ package com.wallpint.wallpint.service;
 
 import com.wallpint.wallpint.model.Cliente;
 import com.wallpint.wallpint.repository.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.PasswordAuthentication;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +19,11 @@ import java.util.Optional;
  */
 @Service
 public class ClienteService {
+
     private final ClienteRepository clienteRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Constructor para inyectar el repositorio
     public ClienteService(ClienteRepository clienteRepository) {
@@ -30,6 +37,11 @@ public class ClienteService {
 
     // Método para guardar un nuevo cliente
     public Cliente guardarCliente(Cliente cliente) {
+
+        // Encripta la contraseña antes de guardarla
+        String passwordHash = passwordEncoder.encode(cliente.getPasswordHash());
+        cliente.setPasswordHash(passwordHash); // Establece la contraseña encriptada
+
         cliente.setFechaRegistro(LocalDateTime.now()); // Establece la fecha de registro al momento actual
         return clienteRepository.save(cliente);
     }

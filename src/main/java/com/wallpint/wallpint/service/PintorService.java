@@ -2,6 +2,8 @@ package com.wallpint.wallpint.service;
 
 import com.wallpint.wallpint.model.Pintor;
 import com.wallpint.wallpint.repository.PintorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +16,11 @@ import java.util.List;
  */
 @Service
 public class PintorService {
+
     private final PintorRepository pintorRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // ============== Constructor para inyectar el repositorio ===============
     public PintorService(PintorRepository pintorRepository) {
@@ -33,6 +39,11 @@ public class PintorService {
 
     // Registrar un nuevo pintor
     public Pintor guardarPintor(Pintor pintor) {
+
+        // Encripta la contraseña antes de guardarla
+        String passwordHash = passwordEncoder.encode(pintor.getPasswordHash());
+        pintor.setPasswordHash(passwordHash); // Establece la contraseña encriptada
+
         if (pintor.getActivo() == null) {
             pintor.setActivo(true); // Por defecto, el pintor se registra como activo
         }
