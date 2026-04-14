@@ -4,6 +4,7 @@ import com.wallpint.wallpint.model.Cliente;
 import com.wallpint.wallpint.service.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class ClienteController {
     // ============== Métodos para el manejo de peticiones HTTP de los clientes ===============
 
     // GET: http://localhost:8080/api/clientes
+    @PreAuthorize("hasRole('ADMIN')") // Solo los usuarios con rol ADMIN pueden acceder a esta ruta
     @GetMapping
     public ResponseEntity<List<Cliente>> obtenerTodosLosClientes() {
         List<Cliente> clientes = clienteService.obtenerTodos();

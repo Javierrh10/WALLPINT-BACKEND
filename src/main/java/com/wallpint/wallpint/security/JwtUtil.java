@@ -55,4 +55,14 @@ public class JwtUtil {
             return false; // Si falla la firma o está caducado, devuelve false
         }
     }
+
+    // Método para sacar el rol del usuario del token
+    public String extractRol(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("rol", String.class);
+    }
 }
