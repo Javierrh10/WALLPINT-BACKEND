@@ -1,5 +1,6 @@
 package com.wallpint.wallpint.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 /**
@@ -31,6 +32,7 @@ public class Usuario {
     @Column(nullable = false, length = 9)
     private String telefono;
 
+    @JsonProperty("password")
     @Column(nullable = false)
     private String passwordHash;
 

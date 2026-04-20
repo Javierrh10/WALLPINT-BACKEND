@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "clientes")
 public class Cliente extends Usuario {
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String direccion;
 
     @Column(nullable = false)
