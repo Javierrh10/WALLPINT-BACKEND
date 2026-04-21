@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Desactivamos CSRF porque usaremos tokens JWT
                 .authorizeHttpRequests(auth -> auth
                         // Permitimos el acceso a las rutas de autenticación sin necesidad de estar autenticado
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/error").permitAll()
                         // Cualquier otra solicitud requiere autenticación
                         .anyRequest().authenticated()
                 )
