@@ -2,6 +2,7 @@ package com.wallpint.wallpint.controller;
 
 import com.wallpint.wallpint.dto.AuthResponse;
 import com.wallpint.wallpint.dto.LoginRequest;
+import com.wallpint.wallpint.dto.UsuarioDTO;
 import com.wallpint.wallpint.model.Cliente;
 import com.wallpint.wallpint.model.Pintor;
 import com.wallpint.wallpint.model.Usuario;
@@ -12,6 +13,7 @@ import com.wallpint.wallpint.service.PintorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,5 +83,34 @@ public class AuthController {
 
         Pintor nuevoPintor = pintorService.guardarPintor(pintor);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPintor);
+    }
+
+    // ================== RUTA DE PERFIL ==================
+    @GetMapping("/me")
+    public ResponseEntity<?> obtenerMiPerfil(Authentication authentication) {
+        // Spring Security inyecta automáticamente el 'authentication' gracias al Token JWT
+        if (authentication == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No autorizado");
+        }
+
+        // authentication.getName() saca el email que guardaste dentro del JWT al hacer login
+        String email = authentication.getName();
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            // Empaquetamos los datos en el DTO (¡Ojo! Asumo que tu clase Usuario tiene getNombre() y getApellidos())
+            UsuarioDTO dto = new UsuarioDTO(
+                    usuario.getNombre(),
+                    usuario.getApellidos(),
+                    usuario.getEmail(),
+                    usuario.getPasswordHash(),
+                    usuario.getTelefono(),
+                    usuario.getRol().name()
+            );
+            return ResponseEntity.ok(dto);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado");
     }
 }
